@@ -1,4 +1,4 @@
-package pl.bier.cocktail.ingredient.repository.model;
+package pl.bier.cocktail.ingredient.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import pl.bier.cocktail.ingredient.entity.Ingredient;

@@ -8,7 +8,7 @@ import pl.bier.cocktail.common.entity.LocalizedId;
 import pl.bier.cocktail.ingredient.entity.Category;
 import pl.bier.cocktail.ingredient.entity.Ingredient;
 import pl.bier.cocktail.ingredient.entity.LocalizedIngredient;
-import pl.bier.cocktail.ingredient.repository.model.IngredientRepository;
+import pl.bier.cocktail.ingredient.repository.IngredientRepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +35,7 @@ public class CocktailAtHomeBackendApplication implements CommandLineRunner {
 				.category(Category.ALCOHOLIC_BEVERAGE)
 				.build());
 		HashMap<String, LocalizedIngredient> localizedIngredientHashMap = new HashMap<>();
-		localizedIngredientHashMap.put("en", LocalizedIngredient.builder().name("rum").localizedId(new LocalizedId("en")).ingredient(ingredient).build());
+		localizedIngredientHashMap.put("en", LocalizedIngredient.builder().name("rum").localizedId(new LocalizedId("en_US")).ingredient(ingredient).build());
 		ingredient.setLocalizations(localizedIngredientHashMap);
 		ingredientRepository.save(ingredient);
 	}
