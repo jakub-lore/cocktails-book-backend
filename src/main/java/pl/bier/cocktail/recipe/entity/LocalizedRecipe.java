@@ -1,4 +1,4 @@
-package pl.bier.cocktail.ingredient.entity;
+package pl.bier.cocktail.recipe.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import pl.bier.cocktail.common.entity.LocalizedId;
+import pl.bier.cocktail.ingredient.entity.Ingredient;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -17,13 +18,13 @@ import javax.persistence.MapsId;
 
 @Entity
 @Builder
-@Getter
-@Setter
-@NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@NoArgsConstructor
+@Setter
+@Getter
 @EqualsAndHashCode
-public class LocalizedIngredient {
+@ToString
+public class LocalizedRecipe {
 
     @EmbeddedId
     private LocalizedId localizedId;
@@ -32,8 +33,7 @@ public class LocalizedIngredient {
     @MapsId("id")
     @JoinColumn(name = "id")
     @ToString.Exclude
-    @EqualsAndHashCode.Exclude
-    private Ingredient ingredient;
+    private Recipe recipe;
 
     private String name;
 

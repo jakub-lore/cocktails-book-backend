@@ -3,10 +3,12 @@ package pl.bier.cocktail.ingredient.controller.model;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Builder
-public class GetIngredientResponse {
+public class GetMultipleIngredientsResponse {
 
-    private IngredientDto ingredient;
+    private List<IngredientDto> ingredients;
 
 }
