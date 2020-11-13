@@ -9,6 +9,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import pl.bier.cocktail.common.entity.Locale;
 import pl.bier.cocktail.recipe.entity.Recipe;
 
 import javax.persistence.CascadeType;
@@ -45,7 +46,7 @@ public class Ingredient {
 
     @OneToMany(mappedBy = "ingredient", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true, fetch = FetchType.EAGER)
     @MapKey(name = "localizedId.locale")
-    private Map<String, LocalizedIngredient> localizations = new HashMap<>();
+    private Map<Locale, LocalizedIngredient> localizations = new HashMap<>();
 
     @ManyToMany
     @ToString.Exclude

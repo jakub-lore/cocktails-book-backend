@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import pl.bier.cocktail.common.entity.Locale;
 import pl.bier.cocktail.ingredient.entity.Ingredient;
 import pl.bier.cocktail.ingredient.entity.LocalizedIngredient;
 
@@ -42,10 +43,10 @@ public class Recipe {
     @ElementCollection
     @CollectionTable
     @ToString.Exclude
-    private Map<Ingredient, Integer> ingredientsMap = new HashMap<>();
+    private Map<Ingredient, Double> ingredientsMap = new HashMap<>();
 
     @OneToMany(mappedBy = "recipe", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true, fetch = FetchType.EAGER)
     @MapKey(name = "localizedId.locale")
-    private Map<String, LocalizedRecipe> localizations = new HashMap<>();
+    private Map<Locale, LocalizedRecipe> localizations = new HashMap<>();
 
 }

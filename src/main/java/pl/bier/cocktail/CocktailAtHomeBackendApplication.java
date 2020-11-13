@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import pl.bier.cocktail.common.entity.Locale;
 import pl.bier.cocktail.common.entity.LocalizedId;
 import pl.bier.cocktail.ingredient.entity.Category;
 import pl.bier.cocktail.ingredient.entity.Ingredient;
@@ -15,7 +16,6 @@ import pl.bier.cocktail.recipe.repository.RecipeRepository;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 @SpringBootApplication
@@ -45,19 +45,19 @@ public class CocktailAtHomeBackendApplication implements CommandLineRunner {
         Ingredient ingredient = ingredientRepository.save(Ingredient.builder()
                 .category(Category.ALCOHOLIC_BEVERAGE)
                 .build());
-        HashMap<String, LocalizedIngredient> localizedIngredientHashMap = new HashMap<>();
-        localizedIngredientHashMap.put("en_US",
+        HashMap<Locale, LocalizedIngredient> localizedIngredientHashMap = new HashMap<>();
+        localizedIngredientHashMap.put(Locale.EN_US,
                 LocalizedIngredient.builder()
                         .name("vodka")
                         .description("Clear distilled beverage composed primarily of water and alcohol.")
-                        .localizedId(new LocalizedId("en_US"))
+                        .localizedId(new LocalizedId(Locale.EN_US))
                         .ingredient(ingredient)
                         .build());
-        localizedIngredientHashMap.put("pl_PL",
+        localizedIngredientHashMap.put(Locale.PL,
                 LocalizedIngredient.builder()
                         .name("wódka")
                         .description("Napój wysokoprocentowy skladający sie prawie wyłącznie z wody i alkoholu.")
-                        .localizedId(new LocalizedId("pl_PL"))
+                        .localizedId(new LocalizedId(Locale.PL))
                         .ingredient(ingredient)
                         .build());
         ingredient.setLocalizations(localizedIngredientHashMap);
@@ -68,22 +68,22 @@ public class CocktailAtHomeBackendApplication implements CommandLineRunner {
         Ingredient ingredient = ingredientRepository.save(Ingredient.builder()
                 .category(Category.ALCOHOLIC_BEVERAGE)
                 .build());
-        HashMap<String, LocalizedIngredient> localizedIngredientHashMap = new HashMap<>();
-        localizedIngredientHashMap.put("en_US",
+        HashMap<Locale, LocalizedIngredient> localizedIngredientHashMap = new HashMap<>();
+        localizedIngredientHashMap.put(Locale.EN_US,
                 LocalizedIngredient.builder()
                         .name("whisky")
                         .description("Distilled beverage from grain mash. Usually aged in wooden casks")
-                        .localizedId(new LocalizedId("en_US"))
-                        .ingredient(ingredient)
-                        .build());
-        localizedIngredientHashMap.put("pl_PL",
-                LocalizedIngredient.builder()
-                        .name("whisky")
-                        .description("Napój wysokoprocentowy powstający z zacieru zbożowego. Najczęściej leżakowany w beczkach.")
-                        .localizedId(new LocalizedId("pl_PL"))
+                        .localizedId(new LocalizedId(Locale.EN_US))
                         .ingredient(ingredient)
                         .build());
         ingredient.setLocalizations(localizedIngredientHashMap);
+        localizedIngredientHashMap.put(Locale.PL,
+                LocalizedIngredient.builder()
+                        .name("whisky")
+                        .description("Napój wysokoprocentowy powstający z zacieru zbożowego. Najczęściej leżakowany w beczkach.")
+                        .localizedId(new LocalizedId(Locale.PL))
+                        .ingredient(ingredient)
+                        .build());
         ingredientRepository.save(ingredient);
     }
 
@@ -92,24 +92,24 @@ public class CocktailAtHomeBackendApplication implements CommandLineRunner {
                 .build();
         recipe = recipeRepository.save(recipe);
 
-        HashMap<String, LocalizedRecipe> localizedRecipeHashMap = new HashMap<>();
-        localizedRecipeHashMap.put("en_US",
+        HashMap<Locale, LocalizedRecipe> localizedRecipeHashMap = new HashMap<>();
+        localizedRecipeHashMap.put(Locale.EN_US,
                 LocalizedRecipe.builder()
                         .name("Just vodka")
                         .description("Pour vodka into the glass")
-                        .localizedId(new LocalizedId("en_US"))
-                        .recipe(recipe)
-                        .build());
-        localizedRecipeHashMap.put("pl_PL",
-                LocalizedRecipe.builder()
-                        .name("Czysta wódka")
-                        .description("Nalej wódkę do szklanki")
-                        .localizedId(new LocalizedId("pl_PL"))
+                        .localizedId(new LocalizedId(Locale.EN_US))
                         .recipe(recipe)
                         .build());
 
+        localizedRecipeHashMap.put(Locale.PL,
+                LocalizedRecipe.builder()
+                        .name("Czysta wódka")
+                        .description("Nalej wódkę do szklanki")
+                        .localizedId(new LocalizedId(Locale.PL))
+                        .recipe(recipe)
+                        .build());
         recipe.setLocalizations(localizedRecipeHashMap);
-        recipe.setIngredientsMap(Map.of(ingredientRepository.findById(1L).get(), 100));
+        recipe.setIngredientsMap(Map.of(ingredientRepository.findById(1L).get(), 100d));
 
         recipeRepository.save(recipe);
     }

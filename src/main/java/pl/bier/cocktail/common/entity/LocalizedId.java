@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.Embeddable;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.io.Serializable;
 
 @Embeddable
@@ -19,9 +21,10 @@ public class LocalizedId implements Serializable {
 
     private Long id;
 
-    private String locale;
+    @Enumerated(EnumType.STRING)
+    private Locale locale;
 
-    public LocalizedId(String locale) {
+    public LocalizedId(Locale locale) {
         this.locale = locale;
     }
 

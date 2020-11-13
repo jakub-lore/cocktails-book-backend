@@ -3,13 +3,19 @@ package pl.bier.cocktail.ingredient.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import pl.bier.cocktail.ingredient.controller.model.GetIngredientResponse;
 import pl.bier.cocktail.ingredient.controller.model.IngredientDto;
 import pl.bier.cocktail.ingredient.controller.model.GetMultipleIngredientsResponse;
+import pl.bier.cocktail.ingredient.controller.model.PostIngredientRequest;
 import pl.bier.cocktail.ingredient.service.IngredientService;
 
+import javax.validation.Valid;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -22,24 +28,26 @@ public class IngredientController {
         this.ingredientService = ingredientService;
     }
 
-    @GetMapping("/ingredient")
-    public GetIngredientResponse findIngredientById(long id) {
+    @GetMapping("/ingredient/{id}")
+    public GetIngredientResponse findIngredientById(@PathVariable Long id) {
         return ingredientService.findLocalizedIngredientById(id)
-                .map(local -> GetIngredientResponse.builder()
-                        .ingredient(IngredientDto.entityToDtoMapper().apply(local))
+                .map(dto -> GetIngredientResponse.builder()
+                        .ingredient(dto)
                         .build())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }
 
-    @GetMapping("/search/ingredient")
-    public GetMultipleIngredientsResponse findIngredient(String start) {
+    @GetMapping("/ingredients")
+    public GetMultipleIngredientsResponse findIngredient(Optional<String> fragment) {
         return GetMultipleIngredientsResponse.builder()
-                .ingredients(ingredientService
-                        .findByNameStart(start)
-                        .stream()
-                        .map(local -> IngredientDto.entityToDtoMapper().apply(local))
-                        .collect(Collectors.toList()))
-                        .build();
+                .ingredients(ingredientService.findByNameContains(fragment))
+                .build();
+    }
+
+    @PostMapping("/ingredient")
+    public long PostIngredient(@RequestBody @Valid PostIngredientRequest request) {
+        System.out.println(request);
+        return ingredientService.saveIngredient(request);
     }
 
 }
