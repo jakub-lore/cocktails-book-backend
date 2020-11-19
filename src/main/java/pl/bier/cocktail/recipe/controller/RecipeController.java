@@ -41,7 +41,7 @@ public class RecipeController {
 
     @PostMapping("/recipes")
     public long postRecipe(@RequestBody PostRecipeRequest recipeRequest) {
-        return 1;
+        return service.saveRecipe(recipeRequest);
     }
 
 }

@@ -42,6 +42,7 @@ public class IngredientService {
     public Optional<IngredientDto> findLocalizedIngredientById(long id) {
         return localizedRepository
                 .findByLocalizedIdIdAndLocalizedIdLocale(id, localeProvider.provide())
+                .or(() -> localizedRepository.findByLocalizedIdIdAndLocalizedIdLocale(id, Locale.DEFAULT))
                 .map(e -> IngredientDto.entityToDtoMapper().apply(e));
     }
 

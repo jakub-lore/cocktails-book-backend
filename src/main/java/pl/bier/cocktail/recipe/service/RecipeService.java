@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.bier.cocktail.common.entity.LocalizedId;
 import pl.bier.cocktail.common.service.LocaleProvider;
 import pl.bier.cocktail.ingredient.controller.model.IngredientDto;
-import pl.bier.cocktail.ingredient.entity.LocalizedIngredient;
+import pl.bier.cocktail.ingredient.service.IngredientService;
 import pl.bier.cocktail.recipe.controller.model.PostRecipeRequest;
 import pl.bier.cocktail.recipe.controller.model.RecipeDto;
 import pl.bier.cocktail.recipe.entity.LocalizedRecipe;
@@ -13,6 +13,8 @@ import pl.bier.cocktail.recipe.entity.Recipe;
 import pl.bier.cocktail.recipe.repository.LocalizedRecipeRepository;
 import pl.bier.cocktail.recipe.repository.RecipeRepository;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -27,17 +29,20 @@ public class RecipeService {
 
     private final LocaleProvider localeProvider;
 
+    private final IngredientService ingredientService;
+
     @Autowired
     public RecipeService(RecipeRepository repository, LocalizedRecipeRepository localizedRepository,
-                         LocaleProvider localeProvider) {
+                         LocaleProvider localeProvider, IngredientService ingredientService) {
         this.repository = repository;
         this.localizedRepository = localizedRepository;
         this.localeProvider = localeProvider;
+        this.ingredientService = ingredientService;
     }
 
     public Optional<RecipeDto> findRecipeById(Long id) {
         return localizedRepository.findByLocalizedIdIdAndLocalizedIdLocale(id, localeProvider.provide())
-                .map(l -> RecipeDto.entityToDtoMapper().apply(l));
+                .map(this::mapToDto);
     }
 
     public List<RecipeDto> findByNameContains(Optional<String> fragmentOptional) {
@@ -46,27 +51,47 @@ public class RecipeService {
                 : localizedRepository.findByNameContainingAndLocalizedIdLocale(fragmentOptional.get(),
                 localeProvider.provide());
 
-        return recipes.stream().map(e -> RecipeDto.entityToDtoMapper().apply(e)).collect(Collectors.toList());
+        return recipes.stream().map(this::mapToDto).collect(Collectors.toList());
     }
 
     public long saveRecipe(PostRecipeRequest request) {
-        repository.save(createEntityFromRequest(request));
-        return 1L;
+        return repository.save(createEntityFromRequest(request)).getId();
     }
 
     private Recipe createEntityFromRequest(PostRecipeRequest request) {
         Recipe recipe = Recipe.builder()
+                .ingredientsMap(new HashMap<>())
+                .localizations(new HashMap<>())
                 .build();
-        recipe.setLocalizations(
-                request.getLocalizations().entrySet().stream()
-                        .collect(Collectors.toMap(Map.Entry::getKey,
-                                e -> LocalizedRecipe.builder()
-                                        .recipe(recipe)
-                                        .name(e.getValue().getName())
-                                        .description(e.getValue().getDescription())
-                                        .localizedId(new LocalizedId(e.getKey()))
-                                        .build())));
+        request.getLocalizations().forEach((k, v) -> {
+            recipe.getLocalizations().put(k,
+                    LocalizedRecipe.builder()
+                            .description(v.getDescription())
+                            .name(v.getName())
+                            .localizedId(new LocalizedId(k))
+                            .recipe(recipe)
+                            .build());
+        });
+        request.getIngredients().forEach((k, v) -> {
+            recipe.getIngredientsMap().put(ingredientService.findIngredientById(k).orElseThrow(), v);
+        });
+
         return recipe;
+    }
+
+    private RecipeDto mapToDto(LocalizedRecipe localizedRecipe) {
+        RecipeDto recipeDto = RecipeDto.builder()
+                .description(localizedRecipe.getDescription())
+                .name(localizedRecipe.getName())
+                .locale(localizedRecipe.getLocalizedId().getLocale())
+                .id(localizedRecipe.getLocalizedId().getId())
+                .ingredients(new HashMap<>())
+                .build();
+        localizedRecipe.getRecipe().getIngredientsMap().forEach((k, v) -> {
+            recipeDto.getIngredients()
+                    .put(k.getId(), v);
+        });
+        return recipeDto;
     }
 
 }

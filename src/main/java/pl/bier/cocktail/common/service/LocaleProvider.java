@@ -6,8 +6,6 @@ import org.springframework.stereotype.Service;
 import pl.bier.cocktail.common.entity.Locale;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-import java.util.Optional;
 
 @Service
 public class LocaleProvider {

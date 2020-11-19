@@ -44,7 +44,8 @@ public class Ingredient {
     @Enumerated(EnumType.STRING)
     private Category category;
 
-    @OneToMany(mappedBy = "ingredient", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "ingredient", orphanRemoval = true, fetch = FetchType.EAGER,
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @MapKey(name = "localizedId.locale")
     private Map<Locale, LocalizedIngredient> localizations = new HashMap<>();
 

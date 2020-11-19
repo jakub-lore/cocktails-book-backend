@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import pl.bier.cocktail.ingredient.controller.model.GetIngredientResponse;
@@ -44,7 +45,8 @@ public class IngredientController {
                 .build();
     }
 
-    @PostMapping("/ingredient")
+    @PostMapping(value = "/ingredient")
+    @ResponseStatus(HttpStatus.CREATED)
     public long PostIngredient(@RequestBody @Valid PostIngredientRequest request) {
         System.out.println(request);
         return ingredientService.saveIngredient(request);
