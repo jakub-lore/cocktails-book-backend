@@ -10,6 +10,7 @@ import lombok.ToString;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import pl.bier.cocktail.common.entity.Locale;
+import pl.bier.cocktail.ingredient.controller.model.Category;
 import pl.bier.cocktail.recipe.entity.Recipe;
 
 import javax.persistence.CascadeType;
@@ -22,6 +23,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.MapKey;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import java.util.HashMap;
 import java.util.List;
@@ -43,6 +45,8 @@ public class Ingredient {
 
     @Enumerated(EnumType.STRING)
     private Category category;
+
+    private int alcoholByVolumePerMil;
 
     @OneToMany(mappedBy = "ingredient", orphanRemoval = true, fetch = FetchType.EAGER,
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})

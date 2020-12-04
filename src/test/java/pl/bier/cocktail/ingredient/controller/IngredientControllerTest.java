@@ -13,8 +13,7 @@ import pl.bier.cocktail.common.entity.Locale;
 import pl.bier.cocktail.ingredient.controller.model.GetIngredientResponse;
 import pl.bier.cocktail.ingredient.controller.model.GetMultipleIngredientsResponse;
 import pl.bier.cocktail.ingredient.controller.model.IngredientDto;
-import pl.bier.cocktail.ingredient.controller.model.PostIngredientRequest;
-import pl.bier.cocktail.ingredient.entity.Category;
+import pl.bier.cocktail.ingredient.controller.model.Category;
 import pl.bier.cocktail.ingredient.service.IngredientService;
 
 import java.util.List;

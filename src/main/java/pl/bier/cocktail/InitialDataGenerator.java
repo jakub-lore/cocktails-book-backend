@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import pl.bier.cocktail.common.entity.Locale;
 import pl.bier.cocktail.common.entity.LocalizedId;
-import pl.bier.cocktail.ingredient.entity.Category;
+import pl.bier.cocktail.ingredient.controller.model.Category;
 import pl.bier.cocktail.ingredient.entity.Ingredient;
 import pl.bier.cocktail.ingredient.entity.LocalizedIngredient;
 import pl.bier.cocktail.ingredient.repository.IngredientRepository;

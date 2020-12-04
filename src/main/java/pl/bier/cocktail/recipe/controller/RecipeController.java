@@ -27,7 +27,7 @@ public class RecipeController {
 
     @GetMapping("/recipe/{id}")
     public GetRecipeResponse findRecipeById(@PathVariable Long id) {
-        return service.findRecipeById(id)
+        return service.findLocalizedRecipeById(id)
                 .map(r -> GetRecipeResponse.builder().recipe(r).build())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
     }

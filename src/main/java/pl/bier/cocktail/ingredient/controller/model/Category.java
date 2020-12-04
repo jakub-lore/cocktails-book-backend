@@ -1,4 +1,4 @@
-package pl.bier.cocktail.ingredient.entity;
+package pl.bier.cocktail.ingredient.controller.model;
 
 public enum Category {
 

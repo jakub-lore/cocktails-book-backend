@@ -40,7 +40,7 @@ public class RecipeService {
         this.ingredientService = ingredientService;
     }
 
-    public Optional<RecipeDto> findRecipeById(Long id) {
+    public Optional<RecipeDto> findLocalizedRecipeById(Long id) {
         return localizedRepository.findByLocalizedIdIdAndLocalizedIdLocale(id, localeProvider.provide())
                 .map(this::mapToDto);
     }

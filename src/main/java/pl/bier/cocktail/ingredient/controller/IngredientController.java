@@ -10,14 +10,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import pl.bier.cocktail.ingredient.controller.model.GetIngredientResponse;
-import pl.bier.cocktail.ingredient.controller.model.IngredientDto;
 import pl.bier.cocktail.ingredient.controller.model.GetMultipleIngredientsResponse;
 import pl.bier.cocktail.ingredient.controller.model.PostIngredientRequest;
 import pl.bier.cocktail.ingredient.service.IngredientService;
 
 import javax.validation.Valid;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 public class IngredientController {

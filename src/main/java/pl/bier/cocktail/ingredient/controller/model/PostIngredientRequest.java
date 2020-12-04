@@ -1,20 +1,23 @@
 package pl.bier.cocktail.ingredient.controller.model;
 
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 import pl.bier.cocktail.common.constraints.DefaultLanguagePresent;
 import pl.bier.cocktail.common.entity.Locale;
 import pl.bier.cocktail.common.entity.LocalizedId;
-import pl.bier.cocktail.ingredient.entity.Category;
 import pl.bier.cocktail.ingredient.entity.Ingredient;
 import pl.bier.cocktail.ingredient.entity.LocalizedIngredient;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Data
 @Validated
+@Builder
 public class PostIngredientRequest {
 
     @DefaultLanguagePresent
@@ -22,8 +25,13 @@ public class PostIngredientRequest {
 
     private Category category;
 
+    @Min(0)
+    @Max(1000)
+    private int alcoholByVolumePerMil;
+
     @Data
     @Validated
+    @Builder
     public static class Localization {
 
         private String name;
@@ -36,6 +44,7 @@ public class PostIngredientRequest {
         return request -> {
             Ingredient ingredient = Ingredient.builder()
                     .category(request.getCategory())
+                    .alcoholByVolumePerMil(request.alcoholByVolumePerMil)
                     .build();
             ingredient.setLocalizations(
                     request.getLocalizations().entrySet().stream()

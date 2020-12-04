@@ -3,7 +3,6 @@ package pl.bier.cocktail.ingredient.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.bier.cocktail.common.entity.Locale;
-import pl.bier.cocktail.common.entity.LocalizedId;
 import pl.bier.cocktail.common.service.LocaleProvider;
 import pl.bier.cocktail.ingredient.controller.model.IngredientDto;
 import pl.bier.cocktail.ingredient.controller.model.PostIngredientRequest;
@@ -12,9 +11,7 @@ import pl.bier.cocktail.ingredient.entity.LocalizedIngredient;
 import pl.bier.cocktail.ingredient.repository.IngredientRepository;
 import pl.bier.cocktail.ingredient.repository.LocalizedIngredientRepository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -65,9 +62,8 @@ public class IngredientService {
 
     public long saveIngredient(PostIngredientRequest request) {
         Ingredient ingredient = PostIngredientRequest.requestToEntityMapper().apply(request);
-        repository.save(ingredient);
+        ingredient = repository.save(ingredient);
         return ingredient.getId();
     }
-
 
 }

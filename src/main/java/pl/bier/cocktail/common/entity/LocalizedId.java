@@ -1,5 +1,6 @@
 package pl.bier.cocktail.common.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ import java.io.Serializable;
 @Setter
 @Getter
 @EqualsAndHashCode
+@AllArgsConstructor
 public class LocalizedId implements Serializable {
 
     private static final long serialVersionUID = 54789427190824L;
