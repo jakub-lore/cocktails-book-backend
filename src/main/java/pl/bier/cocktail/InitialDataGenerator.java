@@ -2,6 +2,7 @@ package pl.bier.cocktail;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 import pl.bier.cocktail.common.entity.Locale;
 import pl.bier.cocktail.common.entity.LocalizedId;
 import pl.bier.cocktail.ingredient.controller.model.Category;
@@ -15,6 +16,7 @@ import pl.bier.cocktail.recipe.repository.RecipeRepository;
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class InitialDataGenerator implements CommandLineRunner {
 
     @Autowired
